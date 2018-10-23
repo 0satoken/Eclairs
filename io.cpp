@@ -203,7 +203,7 @@ void params::show_parameter(void){
   string pname;
 
   cout << "-> showing parameters" << endl;
-  for(int i=0;i<name_list.size();++i){
+  for(size_t i=0;i<name_list.size();++i){
     pname = name_list[i];
     switch(type_list[pname]){
       case INT:

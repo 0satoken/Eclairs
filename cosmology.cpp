@@ -126,7 +126,10 @@ void cosmology::read_transfer(const char *transfer_fname){
  * used from python module
  */
 void cosmology::set_transfer(vector<double> k_set, vector<double> Tk_set){
-  assert(k_set.size() == Tk_set.size()); // dimensions must be the same
+  if(k_set.size() != Tk_set.size()){
+      cerr << "[ERROR] The sizes of k and Tk should be the same." << endl;
+      exit(1);
+  }
 
   nk = k_set.size();
 
@@ -197,7 +200,7 @@ void cosmology::set_spectra(void){
  * In this function, no-wiggle spectrum is the input linear power spectrum.
  */
 void cosmology::set_nw_spectra(void){
-  double Delta_R, Delta_H, T_EH, Dplus, D0;
+  double Delta_H, T_EH, Dplus, D0;
   double kmin_nw = 1e-5;
   double kmax_nw = 1e3;
 
@@ -222,7 +225,6 @@ void cosmology::set_nw_spectra(void){
    * fluctuation into the matter fluctuation.
    */
   for(int i=0;i<nk;i++){
-    Delta_R = As*pow((k[i]*h)/k_pivot, ns-1.0);
     Delta_H = 4.0/25.0*As*pow((k[i]*h)/k_pivot, ns-1.0);
     T_EH = nowiggle_EH_transfer(k[i]);
     Dplus = get_growth_factor(scale);

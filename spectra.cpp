@@ -447,10 +447,9 @@ double spectra::Preg_2loop(Type a, Type b, double k){
 
 /* Power spectrum based on 1-loop standard perturbation theory */
 double spectra::Pspt_1loop(Type a, Type b, double k){
-  double alpha, P0, Pspt1;
+  double P0, Pspt1;
 
   P0 = gsl_spline_eval(Pspl, k, acc);
-  alpha = 0.5*sqr(k)*get_sigmad2(k)*exp(2.0*eta);
 
   Pspt1 = exp(2.0*eta)*P0+
           exp(4.0*eta)*(P0*Gamma1_1loop(a, k)+P0*Gamma1_1loop(b, k)+
@@ -460,10 +459,9 @@ double spectra::Pspt_1loop(Type a, Type b, double k){
 
 /* Power spectrum based on 2-loop standard perturbation theory */
 double spectra::Pspt_2loop(Type a, Type b, double k){
-  double alpha, P0, Pspt1, Pspt2;
+  double P0, Pspt1, Pspt2;
 
   P0 = gsl_spline_eval(Pspl, k, acc);
-  alpha = 0.5*sqr(k)*get_sigmad2(k)*exp(2.0*eta);
 
   Pspt1 = exp(2.0*eta)*P0+
           exp(4.0*eta)*(P0*Gamma1_1loop(a, k)+P0*Gamma1_1loop(b, k)+
@@ -542,11 +540,20 @@ void spectra::output_spectra(void){
       if(flag_verbose) printf("# k[h/Mpc] Pspt_1loop\n");
       fprintf(fout, "# k[h/Mpc] Pspt_1loop\n");
     }
+    else{
+        cerr << "[ERROR] model name is invalid" << endl;
+        exit(1);
+    }
+
     for(int i=0;i<nkout;i++){
       if(model == "RegPT" && !flag_1loop) Pk = Preg_2loop(DENS, DENS, kout[i]);
       else if(model == "RegPT" && flag_1loop) Pk = Preg_1loop(DENS, DENS, kout[i]);
       else if(model == "SPT" && !flag_1loop) Pk = Pspt_2loop(DENS, DENS, kout[i]);
       else if(model == "SPT" && flag_1loop) Pk = Pspt_1loop(DENS, DENS, kout[i]);
+      else{
+          cerr << "[ERROR] model name is invalid" << endl;
+          exit(1);
+      }
       if(flag_verbose) printf("%g %g\n", kout[i], Pk);
       fprintf(fout, "%g %g\n", kout[i], Pk);
     }
