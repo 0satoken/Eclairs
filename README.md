@@ -1,4 +1,4 @@
-# Eclairs (development version)
+# Eclairs
 Author: Ken Osato  
 Contributors: Takahiro Nishimichi, Francis Bernardeau, and Atsushi Taruya  
 
