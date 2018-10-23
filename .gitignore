@@ -1,0 +1,7 @@
+.clang_complete
+*.o
+*.so
+eclairs
+temp
+output.dat
+.ipynb_checkpoints
