@@ -37,7 +37,8 @@ cosmology::cosmology(params &params){
 
   nint = para->iparams["nint"]; // number of integration steps
 
-  /* Flag for free sigmad model (RegPT+) */
+
+  /* Flag for RegPT+ */
   if(para->bparams["free_sigma_d"]){
     sigma_d = params.dparams["sigma_d"];
   }
@@ -87,7 +88,7 @@ void cosmology::read_transfer(const char *transfer_fname){
 
   ifs.open(transfer_fname, ios::in);
   if(ifs.fail()){
-    cerr << "[ERROR] transfer file open error!:" << transfer_fname << endl;
+    cerr << "[ERROR] transfer file open error:" << transfer_fname << endl;
     exit(1);
   }
 
@@ -172,7 +173,7 @@ void cosmology::set_spectra(void){
   Pno_wiggle = new double[nk];
 
   /* For an explicit formulation for the use of EH transfer function,
-   * see Takada et al, PRD, 73, 083520, (2006).
+   * see Takada et al., PRD, 73, 083520, (2006).
    * We need to care about the transformation of the primordial curvature
    * fluctuation into the matter fluctuation.
    */
@@ -219,11 +220,7 @@ void cosmology::set_nw_spectra(void){
   P0 = new double[nk];
   Pno_wiggle = new double[nk];
 
-  /* For an explicit formulation for the use of EH transfer function,
-   * see Takada et al, PRD, 73, 083520, (2006).
-   * We need to care about the transformation of the primordial curvature
-   * fluctuation into the matter fluctuation.
-   */
+
   for(int i=0;i<nk;i++){
     Delta_H = 4.0/25.0*As*pow((k[i]*h)/k_pivot, ns-1.0);
     T_EH = nowiggle_EH_transfer(k[i]);
@@ -243,8 +240,9 @@ void cosmology::set_nw_spectra(void){
 }
 
 /*
- * Smoothes wiggle feature with Gaussian smoothing.
+ * Smoothes wiggle feature with Gaussian smoothing in log space.
  * The smoothed spectra replace linear power spectra.
+ * For details, see Appedix A of Vlah et al., JCAP, 03(2016)057
  */
 void cosmology::set_smoothed_spectra(void){
   int nsm;
@@ -310,7 +308,8 @@ void cosmology::set_smoothed_spectra(void){
   return;
 }
 
-/* This function gives growth factor at the given scale factor.
+/*
+ * This function gives growth factor at the given scale factor.
  * The growth factor is not normalized as D(a=1) = 1,
  * but it behaves as D(a) ~ a at high redshift like in EdS Universe.
  */
@@ -327,7 +326,7 @@ double cosmology::get_growth_factor(double a){
 
   gsl_integration_qags(&integrand, 0.0, a, 1e-9, 1e-9, 10000, workspace, &D, &abserr);
 
-  E  = sqrt(Omega_m*pow(a, -3.0)+Omega_de*pow(a, -3.0*(1.0+w_de)));
+  E = sqrt(Omega_m*pow(a, -3.0)+Omega_de*pow(a, -3.0*(1.0+w_de)));
   D *= 5.0/2.0*Omega_m*E;
 
   gsl_integration_workspace_free(workspace);
