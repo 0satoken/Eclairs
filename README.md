@@ -43,3 +43,5 @@ will be available after companion papers are released.
 This code can be distributed under MIT License.
 For details, please see the LICENSE file.  
 If you use this code in your work, please cite the following paper.
+
+[Osato, Nishimichi, Bernardeau, and Taruya, ArXiv:1810.10104](https://arxiv.org/abs/1810.10104)
