@@ -2,6 +2,10 @@
 Author: Ken Osato  
 Contributors: Takahiro Nishimichi, Francis Bernardeau, and Atsushi Taruya  
 
+# UPDATE (02/05/2023)
+Currently, the code can compute the real-space power spectrum.
+A major updated version including the module to compute redshift-space power spectrum with the response function approach will be released
+when the associated paper is accepted. Stay tune!
 
 ## Prerequisite
 C++ compiler (`g++`, `icpc`, or `clang++`)  
