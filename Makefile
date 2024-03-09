@@ -7,7 +7,7 @@ vpath %.hpp src
 
 # For kernel precomputation, MPI parallelization is supported.
 # But for other cases, this flag should not be set.
-#MPI_PARALLEL=0
+# MPI_PARALLEL=0
 
 ifdef SYSTYPE
 SYSTYPE := $(SYSTYPE)
@@ -15,17 +15,24 @@ else
 SYSTYPE := $(shell uname)
 endif
 
-$(info OS:$(SYSTYPE))
+$(info SYSTYPE:$(SYSTYPE))
 
+# default setting
+CXX = g++
+CXXFLAGS = -O2 -fPIC -std=c++11
+GSL_DIR = /path/to/gsl
+
+# setting for MacOS with homebrew
 ifeq ($(SYSTYPE),Darwin)
 CXX = clang++
-#CXXFLAGS = -O2 -Wall -fPIC -std=c++11
-CXXFLAGS = -O0 -g -Wall -fPIC -std=c++11
+CXXFLAGS = -O2 -fPIC -std=c++11
+#CXXFLAGS = -O0 -g -fPIC -std=c++11
 
-GSL_DIR  = /opt/homebrew
+GSL_DIR   = /opt/homebrew
 BOOST_DIR = /opt/homebrew
 endif
 
+# For generic Linux system
 ifeq ($(SYSTYPE),XC50)
 ifdef MPI_PARALLEL
 CXX = CC
@@ -34,7 +41,7 @@ CXX = icpc
 endif
 CXXFLAGS = -fast -Wall -fPIC -std=c++11
 
-GSL_DIR  = /work/osatokn/usr
+GSL_DIR   = /work/osatokn/usr
 BOOST_DIR = /work/osatokn/usr
 endif
 
@@ -55,10 +62,10 @@ endif
 # For macOS with homebrew
 ifeq ($(SYSTYPE),Darwin)
 	PIP = pip
-	PY_DIR = /opt/Library/Frameworks/Python.framework/Versions/$(PY_VERSION)
-	PY_INCLUDES = -I$(PY_DIR)/include/python$(PY_VERSION)m -I$(BOOST_DIR)/include -I$(GSL_DIR)/include
+	PY_DIR = /opt/homebrew/Frameworks/Python.framework/Versions/3.11
+	PY_INCLUDES = -I$(PY_DIR)/include/python3.11 -I$(BOOST_DIR)/include -I$(GSL_DIR)/include
 	PY_LIBS = -L$(PY_DIR)/lib -L$(BOOST_DIR)/lib -L$(GSL_DIR)/lib \
-	-lgsl -lgslcblas -lboost_python37-mt -lboost_numpy37-mt -lpython$(PY_VERSION)
+	-lgsl -lgslcblas -lboost_python311-mt -lboost_numpy311-mt -lpython3.11
 	PY_FLAGS = $(CXXFLAGS) -fPIC -shared
 endif
 
@@ -73,8 +80,6 @@ ifeq ($(SYSTYPE),XC50)
 endif
 
 # If your OS is not macOS nor Linux, please provide paths and version related with python manually.
-
-
 
 SRCS = vector.cpp kernel.cpp Gamma1.cpp Gamma2.cpp params.cpp cosmology.cpp spectra.cpp nonlinear.cpp \
        bispectra.cpp direct_red.cpp fast_kernels.cpp fast_spectra.cpp \
@@ -93,7 +98,7 @@ $(TARGET): $(OBJS) $(SRCH)
 
 $(PY_TARGET): $(PY_OBJS) $(SRCH)
 	$(CXX) $(PY_FLAGS) $(addprefix build/,$(PY_OBJS)) $(PY_INCLUDES) $(PY_LIBS) -o python/pyecl/$(PY_TARGET).so
-	cd python; $(PIP) install setup.py
+	cd python; $(PIP) install .
 
 pyeclairs.o: pyeclairs.cpp $(SRCH)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $(PY_INCLUDES) -c $< -o build/$*.o

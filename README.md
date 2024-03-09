@@ -1,51 +1,55 @@
 # Eclairs
+
 Author: Ken Osato  
 Contributors: Takahiro Nishimichi, Francis Bernardeau, and Atsushi Taruya  
 
-# UPDATE (02/05/2023)
-Currently, the code can compute the real-space power spectrum.
-A major updated version including the module to compute redshift-space power spectrum with the response function approach will be released
-when the associated paper is accepted. Stay tune!
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
 
 ## Prerequisite
-C++ compiler (`g++`, `icpc`, or `clang++`)  
-GNU Scientific Library (GSL)  
-Boost (optional for python wrapper)
 
-The code is tested with icpc v19.0.0.117, GSL v2.5, Boost v1.66, and python v2.7.  
-For compling this code, please specify the paths for these libraries
-in `Makefile`. Then, type
+To compile `eclairs`, the required libraries are
 
+* C++ compiler (`g++`, `icpc`, or `clang++`)  
+* [GNU Scientific Library (GSL)](https://www.gnu.org/software/gsl/)  
+
+To compile the python wrapper ``, additional requirements are  
+
+* Python3
+* pip
+* [Boost](https://www.boost.org/)
+
+Specify the paths for these libraries in `Makefile`.
+Then, an executable `eclairs` is created.
+The basic usage is
+
+```C++
+> ./eclairs [initial parameter file]
 ```
-make
-```
 
-Then an executable `eclairs` is created. For running the code,
-you can pass the initial parameter file as,
-
-```
-./eclairs [initial parameter file]
-```
-
-You can find an example parameter file as [example.ini](example.ini).
+You can find example parameter files at [inifiles](inifiles).
 If you pass nothing, the code runs with default parameters.
 
+## Jupyter notebooks for `pyeclairs`
 
-## Tutorial for python wrapper
-For tutorial, you can refer to [tutorial.ipynb](tutorial.ipynb).
+We provide tutorials to run `pyeclairs` as Jupyter notebooks at [notebooks](notebooks).
+Currently, only basic tutorial notebook is available. We will add more notebooks later.
 
+## Notes on the fast mode with the response function approach
 
-## Future plans
-Currently, the computation of real-space matter power spectrum
-based on RegPT and SPT is supported.
-Additional modules, which incorporate redshift space distortion,
-galaxy bias, and fast calculation based on RegPT-fast schemes,
-will be available after companion papers are released.
-
+In [Osato et al. (2021)](https://ui.adsabs.harvard.edu/abs/2021PhRvD.104j3501O),
+the response function approach is implemented in `eclairs`.
+This mode requires the precomputed kernels to compute the response function.
+Indeed, the module to generate the precomputed tables is found in this repository.
+Since the calculations take long (a few days with MPI parallelizations),
+we provide the precomputed tables with 10 cosmological parameter sets assuming $\Lambda$CDM cosmology.
+We will put the download link later on this repository.
 
 ## License
+
 This code can be distributed under MIT License.
 For details, please see the LICENSE file.  
-If you use this code in your work, please cite the following paper.
+If you use this code in your work, please cite the following papers.
 
-[Osato, Nishimichi, Bernardeau, and Taruya, ArXiv:1810.10104](https://arxiv.org/abs/1810.10104)
+* [Osato, Nishimichi, Bernardeau, and Taruya (2019)](https://ui.adsabs.harvard.edu/abs/2019PhRvD..99f3530O)
+* [Osato, Nishimichi, Taruya, and Bernardeau (2021)](https://ui.adsabs.harvard.edu/abs/2021PhRvD.104j3501O)
+* [Osato, Nishimichi, Taruya, and Bernardeau (2023)](https://ui.adsabs.harvard.edu/abs/2023PhRvD.108l3541O/abstract)
