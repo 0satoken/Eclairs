@@ -12,14 +12,14 @@ To compile `eclairs`, the required libraries are
 * C++ compiler (`g++`, `icpc`, or `clang++`)  
 * [GNU Scientific Library (GSL)](https://www.gnu.org/software/gsl/)  
 
-To compile the python wrapper ``, additional requirements are  
+To compile the python wrapper `pyeclairs`, additional requirements are  
 
 * Python3
 * pip
 * [Boost](https://www.boost.org/)
 
 Specify the paths for these libraries in `Makefile`.
-Then, an executable `eclairs` is created.
+Then, running `make` creates an executable `eclairs`.
 The basic usage is
 
 ```C++
