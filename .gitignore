@@ -4,4 +4,10 @@
 eclairs
 temp
 output.dat
+python/pyecl.egg-info
+python/pyecl/pyeclairs.so
+python/build
+python/dist
+
 .ipynb_checkpoints
+.vscode

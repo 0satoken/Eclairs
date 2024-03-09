@@ -1,21 +1,21 @@
 #ifndef KERNEL_HEADER_INCLUDED
 #define KERNEL_HEADER_INCLUDED
 
-#include <iostream>
-#include <cmath>
 #include "vector.hpp"
+#include <cmath>
+#include <iostream>
 
 #define EPS (1e-30)
 
 using namespace std;
 
+template <class T> inline T sqr(T x) { return x * x; }
+template <class T> inline T cub(T x) { return x * x * x; }
+template <class T> inline T qua(T x) { return x * x * x * x; }
 
-template<class T> inline T sqr(T x) {return x*x;}
-template<class T> inline T cub(T x) {return x*x*x;}
-template<class T> inline T qua(T x) {return x*x*x*x;}
-
-enum Type{
-  DENS = 1, VELO = 2,
+enum Type {
+  DENS = 1,
+  VELO = 2,
 };
 
 double sigmaab(int n, Type a, Type b);
