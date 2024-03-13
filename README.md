@@ -41,8 +41,8 @@ the response function approach is implemented in `eclairs`.
 This mode requires the precomputed kernels to compute the response function.
 Indeed, the module to generate the precomputed tables is found in this repository.
 Since the calculations take long (a few days with MPI parallelizations),
-we provide the precomputed tables with 10 cosmological parameter sets assuming $\Lambda$CDM cosmology.
-We will put the download link later on this repository.
+we provide the precomputed tables with 10 cosmological parameter sets assuming $`\Lambda`$CDM cosmology.
+We will put the download link later (hopefully, in April 2024) on this repository.
 
 ## License
 
